@@ -32,6 +32,9 @@ import { TransactionsPage } from './pages/Accounting/Transactions/Transaction';
 import { MarketDashboardPage } from './pages/Marketing/Dashboard/MarketingDashboard'
 import { MarketProductsPage } from './pages/Marketing/Products/Products'
 import { MarketOrdersPage } from './pages/Marketing/MarketOrders/MarketOrders'
+import { EquipmentLayout } from "./pages/Resources/Equipment/EquipemntLayout"
+import { WarehouseManagement } from "./pages/Resources/Warehouse/Warehouse"
+import {ResourcesInventory} from "./pages/Resources/Inventory/Inventory"
 
 // Crops Secondary Sidebar Component
 const CropsSecondarySidebar: React.FC<{ activeSubmenu: string; setActiveSubmenu: (submenu: string) => void }> = ({
@@ -534,6 +537,9 @@ const ProtectedLayout: React.FC = () => {
             <Route path="/market/dashboard" element={<MarketDashboardPage />} />
             <Route path="/market/products" element={<MarketProductsPage />} />
             <Route path="/market/orders" element={<MarketOrdersPage />} />
+            <Route path="/resources/equipment" element={<EquipmentLayout />} />
+            <Route path="/resources/warehouse" element={<WarehouseManagement />} />
+            <Route path="/resources/inventory" element={<ResourcesInventory />} />
           </Routes>
         </main>
       </div>

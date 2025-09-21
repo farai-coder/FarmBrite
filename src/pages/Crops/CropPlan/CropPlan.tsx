@@ -167,11 +167,11 @@ export const CropPlan = () => {
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">
                                         Location
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200 w-48">
                                         Key Dates
                                     </th>
                                     {months.map(month => (
-                                        <th key={month} className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider w-16 border-r border-gray-200 last:border-r-0">
+                                        <th key={month} className="px-1 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider w-10 border-r border-gray-200 last:border-r-0">
                                             {month}
                                         </th>
                                     ))}
@@ -216,32 +216,33 @@ export const CropPlan = () => {
                                         </td>
 
                                         {/* Key Dates Column */}
-                                        <td className="px-6 py-4 border-r border-gray-200">
-                                            <div className="text-xs space-y-1">
-                                                <div className="flex items-center space-x-1">
-                                                    <span className="inline-block w-2 h-2 bg-yellow-400 rounded-full"></span>
-                                                    <span className="text-gray-600">Start Tray: {item.keyDates.start}</span>
+                                        <td className="px-6 py-4 border-r border-gray-200 w-48">
+                                            <div className="text-xs space-y-2">
+                                                <div className="flex items-center space-x-2">
+                                                    <span className="inline-block w-2 h-2 bg-yellow-400 rounded-full flex-shrink-0"></span>
+                                                    <span className="text-gray-600 truncate">Start: {item.keyDates.start}</span>
                                                 </div>
-                                                <div className="flex items-center space-x-1">
-                                                    <span className="inline-block w-2 h-2 bg-green-400 rounded-full"></span>
-                                                    <span className="text-gray-600">First Tray: {item.keyDates.first}</span>
+                                                <div className="flex items-center space-x-2">
+                                                    <span className="inline-block w-2 h-2 bg-green-400 rounded-full flex-shrink-0"></span>
+                                                    <span className="text-gray-600 truncate">First: {item.keyDates.first}</span>
                                                 </div>
-                                                <div className="flex items-center space-x-1">
-                                                    <span className="inline-block w-2 h-2 bg-blue-400 rounded-full"></span>
-                                                    <span className="text-gray-600">Harvest: {item.keyDates.harvest}</span>
+                                                <div className="flex items-center space-x-2">
+                                                    <span className="inline-block w-2 h-2 bg-blue-400 rounded-full flex-shrink-0"></span>
+                                                    <span className="text-gray-600 truncate">Harvest: {item.keyDates.harvest}</span>
                                                 </div>
                                             </div>
                                         </td>
 
                                         {/* Timeline Columns */}
                                         {months.map((month) => (
-                                            <td key={month} className="px-2 py-4 text-center border-r border-gray-200 last:border-r-0">
+                                            <td key={month} className="px-1 py-4 text-center border-r border-gray-200 last:border-r-0">
                                                 {item.timeline[month.toLowerCase() as keyof typeof item.timeline] && (
                                                     <div
-                                                        className="h-6 rounded mx-1 border border-opacity-20"
+                                                        className="h-6 rounded mx-auto border border-opacity-20"
                                                         style={{
                                                             backgroundColor: getTimelineColor(item.crop as "Tomatoes San Marzano" | "Tomatoes Roma" | "Peppers (Hot) Thai Dragon", month),
-                                                            borderColor: getTimelineColor(item.crop as "Tomatoes San Marzano" | "Tomatoes Roma" | "Peppers (Hot) Thai Dragon", month)
+                                                            borderColor: getTimelineColor(item.crop as "Tomatoes San Marzano" | "Tomatoes Roma" | "Peppers (Hot) Thai Dragon", month),
+                                                            width: '20px'
                                                         }}
                                                     ></div>
                                                 )}

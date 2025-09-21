@@ -95,9 +95,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   const resourcesSubItems = [
     { id: 'equipment', icon: 'fa-tractor', label: 'Equipment', path: '/resources/equipment' },
+    { id: 'warehouse', icon: 'fa-warehouse', label: 'Warehouse', path: '/resources/warehouse' },
     { id: 'inventory', icon: 'fa-boxes', label: 'Inventory', path: '/resources/inventory' },
-    { id: 'maintenance', icon: 'fa-wrench', label: 'Maintenance', path: '/resources/maintenance' },
   ];
+
 
   const accountingSubItems = [
     { id: 'transactions', icon: 'fa-exchange-alt', label: 'Transactions', path: '/accounting/transactions' },
