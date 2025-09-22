@@ -72,7 +72,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const menuItems = [
     { id: 'schedule', icon: 'fa-calendar-alt', label: 'Schedule', path: '/schedule' },
     { id: 'tasks', icon: 'fa-tasks', label: 'Tasks', path: '/tasks' },
-    // { id: 'livestock', icon: 'fa-horse', label: 'Livestock', hasSub: true, path: '/livestock' },
+    // 
+    { id: 'livestock', icon: 'fa-horse', label: 'Livestock', hasSub: true, path: '/livestock' },
     { id: 'crops', icon: 'fa-seedling', label: 'Crops', hasSub: true, path: '/crops' },
     { id: 'resources', icon: 'fa-tractor', label: 'Resources', hasSub: true, path: '/resources' },
     { id: 'accounting', icon: 'fa-calculator', label: 'Accounting', hasSub: true, path: '/accounting' },

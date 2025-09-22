@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { CustomFields } from "../CustomFields/CustomFields";
+import { EquipmentFiles } from "../Files/Files";
+import { Photos } from "../Photos/Photos";
 
 // Equipment Secondary Sidebar Component
 const EquipmentSecondarySidebar = ({ activeSubmenu, setActiveSubmenu }) => {
@@ -10,7 +13,8 @@ const EquipmentSecondarySidebar = ({ activeSubmenu, setActiveSubmenu }) => {
         { id: 'maintenance', label: 'Maintenance', icon: 'fa-wrench' },
         { id: 'accounting', label: 'Accounting', icon: 'fa-calculator' },
         { id: 'photos', label: 'Photos', icon: 'fa-camera' },
-        { id: 'files', label: 'Files', icon: 'fa-file-alt' }
+        { id: 'files', label: 'Files', icon: 'fa-file-alt' },
+        { id: 'custom-fields', label: 'Custom Fields', icon: 'fa-list' },
     ];
 
     return (
@@ -335,19 +339,13 @@ export const EquipmentLayout = () => {
                     </div>
                 );
             case 'photos':
-                return (
-                    <div className="flex-1 p-6 bg-white">
-                        <h2 className="text-xl font-semibold text-gray-800 mb-4">Equipment Photos</h2>
-                        <p className="text-gray-600">Upload and manage photos of this equipment.</p>
-                    </div>
-                );
+                return <Photos />;
+
             case 'files':
-                return (
-                    <div className="flex-1 p-6 bg-white">
-                        <h2 className="text-xl font-semibold text-gray-800 mb-4">Equipment Files</h2>
-                        <p className="text-gray-600">Store manuals, warranties, and other documents.</p>
-                    </div>
-                );
+                return <EquipmentFiles />;
+                
+            case 'custom-fields':
+                return  <CustomFields />;
             default:
                 return <EquipmentDetails />;
         }

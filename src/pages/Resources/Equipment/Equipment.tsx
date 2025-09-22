@@ -151,6 +151,28 @@ export const ResourcesEquipmentPage = () => {
             <div className="flex items-center justify-between mb-6">
                 <h1 className="text-2xl font-semibold text-gray-800">Equipment</h1>
                 <div className="flex items-center space-x-4">
+
+                    <div className="flex justify-between items-center mb-4">
+                    <h1 className="text-2xl font-semibold text-gray-900">Equipment</h1>
+                    <div className="flex space-x-2">
+                        {/* Existing New Equipment button */}
+                        <button
+                        type="button"
+                        className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700"
+                        >
+                        + New Equipment
+                        </button>
+
+                        {/* NEW Customize Fields button */}
+                        <a
+                        href="/resources/equipment/custom-fields"
+                        className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
+                        >
+                        ⚙ Customize Fields
+                        </a>
+                    </div>
+                    </div>
+
                     <button className="bg-green-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-green-700 transition-colors">
                         New Equipment
                     </button>
@@ -159,6 +181,8 @@ export const ResourcesEquipmentPage = () => {
                     </button>
                 </div>
             </div>
+
+
 
             {/* Search and Filters */}
             <div className="flex items-center justify-between mb-6">

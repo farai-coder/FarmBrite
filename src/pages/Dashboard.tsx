@@ -30,7 +30,7 @@ export const Dashboard = () => {
         { day: 'Today', high: 92, low: 68, icon: Sun },
         { day: 'Wed', high: 92, low: 70, icon: Sun },
         { day: 'Thu', high: 92, low: 72, icon: Sun },
-        { day: 'Fri', high: 91, high: 74, icon: Sun },
+        { day: 'Fri', high: 91, low: 74, icon: Sun },
         { day: 'Sat', high: 86, low: 76, icon: CloudRain },
         { day: 'Sun', high: 80, low: 78, icon: CloudRain }
     ];
