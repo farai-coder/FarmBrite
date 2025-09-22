@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Plus, Search, X, ChevronDown } from 'lucide-react';
+import { Plus, Search, X, ChevronDown, MoreVertical, Edit, Trash2 } from 'lucide-react';
 
 export const ContactsPage = () => {
     const [showNewContactModal, setShowNewContactModal] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
+    const [activeMenu, setActiveMenu] = useState(null); // Track which contact's menu is open
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -22,72 +23,11 @@ export const ContactsPage = () => {
         description: ''
     });
 
-    // Mock contacts data
-    const contacts = [
-        {
-            id: 1,
-            name: "Worthington, Carla",
-            type: "Buyer",
-            company: "American Hearts",
-            email: "carla@americanheartsfarmequipment.com",
-            phone: "(208) 555-5772",
-            city: "Cobden"
-        },
-        {
-            id: 2,
-            name: "Vaughan Champ",
-            type: "Contractor",
-            company: "Altona Contracting LLC",
-            email: "cvaughan@altonacontractingllc.com",
-            phone: "(208) 555-8783",
-            city: "Waucoma"
-        },
-        {
-            id: 3,
-            name: "White, Walter",
-            type: "Wholesale Customer",
-            company: "Rosin and Post Company",
-            email: "walt@rosinandpostcompany.com",
-            phone: "(208) 555-7955",
-            city: "Rosenfield"
-        },
-        {
-            id: 4,
-            name: "Wallace, Craig",
-            type: "Customer",
-            company: "",
-            email: "craig@wallaceco.com",
-            phone: "(308) 555-6249",
-            city: "LaFayette"
-        },
-        {
-            id: 5,
-            name: "Schafer, James",
-            type: "Employee",
-            company: "Copperdale Farms",
-            email: "james@copperdalefarms.com",
-            phone: "(308) 555-9885",
-            city: "Superior"
-        },
-        {
-            id: 6,
-            name: "Nelson, Regina",
-            type: "Veterinarian",
-            company: "Happy Tale Animal Clinic",
-            email: "regina@happytaleactiveclinic.net",
-            phone: "(308) 555-8546",
-            city: "Nimet"
-        },
-        {
-            id: 7,
-            name: "Miller, Otto",
-            type: "CenStar",
-            company: "Boulder County",
-            email: "otto@bouldercountyvet.com",
-            phone: "(308) 555-8429",
-            city: "Newkirk"
-        }
-    ];
+    // Mock contacts data - start empty to show empty state
+    const [contacts, setContacts] = useState([
+        // Add some sample data for testing
+      
+    ]);
 
     const contactTypes = [
         'Buyer',
@@ -170,8 +110,20 @@ export const ContactsPage = () => {
     };
 
     const handleSave = () => {
-        // Handle saving the contact
-        console.log('Saving contact:', formData);
+        // Create new contact with unique ID
+        const newContact = {
+            id: contacts.length > 0 ? Math.max(...contacts.map(contact => contact.id)) + 1 : 1,
+            name: `${formData.lastName}, ${formData.firstName}`,
+            type: formData.contactType,
+            company: formData.company,
+            email: formData.email,
+            phone: formData.primaryPhone,
+            city: formData.city
+        };
+
+        // Add the new contact to contacts array
+        setContacts([...contacts, newContact]);
+
         setShowNewContactModal(false);
         // Reset form
         setFormData({
@@ -214,10 +166,79 @@ export const ContactsPage = () => {
         });
     };
 
+    const handleEdit = (contactId) => {
+        // Find the contact to edit
+        const contactToEdit = contacts.find(contact => contact.id === contactId);
+        if (contactToEdit) {
+            // Parse the name (assuming format "Last, First")
+            const nameParts = contactToEdit.name.split(', ');
+            const lastName = nameParts[0];
+            const firstName = nameParts[1] || '';
+
+            // Pre-fill the form with contact data
+            setFormData({
+                firstName: firstName,
+                lastName: lastName,
+                email: contactToEdit.email,
+                contactType: contactToEdit.type,
+                website: '',
+                primaryPhone: contactToEdit.phone,
+                mobilePhone: '',
+                fax: '',
+                company: contactToEdit.company,
+                address: '',
+                city: contactToEdit.city,
+                country: '',
+                stateProvince: '',
+                postalCode: '',
+                description: ''
+            });
+
+            // Open the modal for editing
+            setShowNewContactModal(true);
+
+            // Close the menu
+            setActiveMenu(null);
+        }
+    };
+
+    const handleDelete = (contactId) => {
+        // Remove the contact from the list
+        setContacts(contacts.filter(contact => contact.id !== contactId));
+        setActiveMenu(null);
+    };
+
+    const toggleMenu = (contactId) => {
+        setActiveMenu(activeMenu === contactId ? null : contactId);
+    };
+
     const filteredContacts = contacts.filter(contact =>
         contact.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         contact.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
         contact.company.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    // Empty Contacts State Component
+    const EmptyContactsState = ({ onAddContact }) => (
+        <div className="flex flex-col items-center justify-center py-20">
+            {/* Dotted rectangle containing all the content */}
+            <div className="border-2 border-dashed border-gray-300 rounded-lg p-12 flex flex-col items-center w-full max-w-2xl">
+                <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center mb-6">
+                    <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                </div>
+                <h3 className="text-lg font-medium text-gray-900 mb-3">No contacts yet?</h3>
+                <p className="text-gray-600 mb-5 text-center">Add a new contact and it will show up here.</p>
+                <button
+                    onClick={onAddContact}
+                    className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center space-x-2"
+                >
+                    <Plus className="w-4 h-4" />
+                    <span>Add Your First Contact</span>
+                </button>
+            </div>
+        </div>
     );
 
     return (
@@ -265,49 +286,77 @@ export const ContactsPage = () => {
                     </div>
                 </div>
 
-                {/* Contacts Table */}
-                <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-                    {/* Table Header */}
-                    <div className="grid grid-cols-12 gap-4 px-6 py-3 bg-gray-50 border-b border-gray-200 text-sm font-medium text-gray-600">
-                        <div className="col-span-2">NAME</div>
-                        <div className="col-span-2">TYPE</div>
-                        <div className="col-span-2">COMPANY</div>
-                        <div className="col-span-3">EMAIL</div>
-                        <div className="col-span-2">PHONE</div>
-                        <div className="col-span-1">CITY</div>
-                    </div>
+                {/* Contacts Table or Empty State */}
+                {contacts.length === 0 ? (
+                    <EmptyContactsState onAddContact={() => setShowNewContactModal(true)} />
+                ) : (
+                    <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-x-auto">
+                        {/* Table Header */}
+                        <div className="grid grid-cols-12 gap-4 px-6 py-3 bg-gray-50 border-b border-gray-200 text-sm font-medium text-gray-600 min-w-[1000px]">
+                            <div className="col-span-2">NAME</div>
+                            <div className="col-span-2">TYPE</div>
+                            <div className="col-span-2">COMPANY</div>
+                            <div className="col-span-2">EMAIL</div>
+                            <div className="col-span-2">PHONE</div>
+                            <div className="col-span-1">CITY</div>
+                            <div className="col-span-1 text-right">ACTIONS</div>
+                        </div>
 
-                    {/* Contact Rows */}
-                    <div className="divide-y divide-gray-200">
-                        {filteredContacts.map((contact) => (
-                            <div key={contact.id} className="grid grid-cols-12 gap-4 px-6 py-4 hover:bg-gray-50 transition-colors duration-150">
-                                <div className="col-span-2">
-                                    <div className="text-sm font-medium text-gray-900">{contact.name}</div>
-                                </div>
-                                <div className="col-span-2">
-                                    <span className="text-sm text-gray-600">{contact.type}</span>
-                                </div>
-                                <div className="col-span-2">
-                                    <span className="text-sm text-gray-600">{contact.company}</span>
-                                </div>
-                                <div className="col-span-3">
-                                    <span className="text-sm text-blue-600 hover:text-blue-800">{contact.email}</span>
-                                </div>
-                                <div className="col-span-2">
-                                    <span className="text-sm text-gray-600">{contact.phone}</span>
-                                </div>
-                                <div className="col-span-1">
-                                    <div className="flex items-center justify-between">
-                                        <span className="text-sm text-gray-600">{contact.city}</span>
-                                        <button className="text-red-500 hover:text-red-700">
-                                            <X className="w-4 h-4" />
+                        {/* Contact Rows */}
+                        <div className="divide-y divide-gray-200 min-w-[1000px]">
+                            {filteredContacts.map((contact) => (
+                                <div key={contact.id} className="grid grid-cols-12 gap-4 px-6 py-4 hover:bg-gray-50 transition-colors duration-150">
+                                    <div className="col-span-2">
+                                        <div className="text-sm font-medium text-gray-900 truncate">{contact.name}</div>
+                                    </div>
+                                    <div className="col-span-2">
+                                        <span className="text-sm text-gray-600 truncate">{contact.type}</span>
+                                    </div>
+                                    <div className="col-span-2">
+                                        <span className="text-sm text-gray-600 truncate">{contact.company}</span>
+                                    </div>
+                                    <div className="col-span-2">
+                                        <span className="text-sm text-blue-600 hover:text-blue-800 truncate">{contact.email}</span>
+                                    </div>
+                                    <div className="col-span-2">
+                                        <span className="text-sm text-gray-600 truncate">{contact.phone}</span>
+                                    </div>
+                                    <div className="col-span-1">
+                                        <span className="text-sm text-gray-600 truncate">{contact.city}</span>
+                                    </div>
+                                    <div className="col-span-1 relative flex justify-end">
+                                        <button
+                                            onClick={() => toggleMenu(contact.id)}
+                                            className="text-gray-400 hover:text-gray-600 p-1"
+                                        >
+                                            <MoreVertical className="w-4 h-4" />
                                         </button>
+
+                                        {/* Dropdown Menu */}
+                                        {activeMenu === contact.id && (
+                                            <div className="absolute right-0 mt-2 w-32 bg-white rounded-md shadow-lg border border-gray-200 z-10">
+                                                <button
+                                                    onClick={() => handleEdit(contact.id)}
+                                                    className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                >
+                                                    <Edit className="w-4 h-4 mr-2" />
+                                                    Edit
+                                                </button>
+                                                <button
+                                                    onClick={() => handleDelete(contact.id)}
+                                                    className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                                                >
+                                                    <Trash2 className="w-4 h-4 mr-2" />
+                                                    Delete
+                                                </button>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
                     </div>
-                </div>
+                )}
 
                 {/* New Contact Modal */}
                 {showNewContactModal && (

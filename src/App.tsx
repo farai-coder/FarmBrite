@@ -34,7 +34,15 @@ import { MarketProductsPage } from './pages/Marketing/Products/Products'
 import { MarketOrdersPage } from './pages/Marketing/MarketOrders/MarketOrders'
 import { EquipmentLayout } from "./pages/Resources/Equipment/EquipemntLayout"
 import { WarehouseManagement } from "./pages/Resources/Warehouse/Warehouse"
-import {ResourcesInventory} from "./pages/Resources/Inventory/Inventory"
+import { ResourcesInventory } from "./pages/Resources/Inventory/Inventory"
+import { StandardReports } from './pages/Reports/Reports';
+import { FarmMap } from './pages/FarmMap/Map';
+import { BalanceSheet } from './pages/Accounting/BalanceSheet/BalanceSheet';
+import { Budgeting } from './pages/Accounting/Budget/Budget';
+import { WeatherHistory } from './pages/Climate/WeatherHistory/WeatherHistory';
+import { ClimateGauges } from './pages/Climate/ClimateGauge/ClimateGauge';
+import { WeatherLogs } from './pages/Climate/WeatherLogs/WeatherLogs';
+import { WeatherMap} from './pages/Climate/WeatherMap/WeatherMap'
 
 // Crops Secondary Sidebar Component
 const CropsSecondarySidebar: React.FC<{ activeSubmenu: string; setActiveSubmenu: (submenu: string) => void }> = ({
@@ -501,18 +509,18 @@ const ProtectedLayout: React.FC = () => {
                 <p className="text-gray-600">Manage vendors, customers, and other contacts</p>
               </div>
             } /> */}
-            <Route path="/farm-map" element={
+            {/* <Route path="/farm-map" element={
               <div className="bg-white rounded-lg shadow-sm p-6">
                 <h1 className="text-2xl font-semibold text-gray-800 mb-4">Farm Map</h1>
                 <p className="text-gray-600">View and manage your farm layout</p>
               </div>
-            } />
-            <Route path="/reports" element={
+            } /> */}
+            {/* <Route path="/reports" element={
               <div className="bg-white rounded-lg shadow-sm p-6">
                 <h1 className="text-2xl font-semibold text-gray-800 mb-4">Reports</h1>
                 <p className="text-gray-600">Generate and view farm reports</p>
               </div>
-            } />
+            } /> */}
             <Route path="/crops/crop-plan" element={<CropPlan />} />
             <Route path="/crops/yield-comparison" element={<YieldComparison />} />
             <Route path="/crops/location-map" element={<LocationMap />} />
@@ -540,6 +548,14 @@ const ProtectedLayout: React.FC = () => {
             <Route path="/resources/equipment" element={<EquipmentLayout />} />
             <Route path="/resources/warehouse" element={<WarehouseManagement />} />
             <Route path="/resources/inventory" element={<ResourcesInventory />} />
+            <Route path="/reports" element={<StandardReports />} />
+            <Route path="/farm-map" element={<FarmMap />} />
+            <Route path="/accounting/balance-sheet" element={<BalanceSheet />} />
+            <Route path="/accounting/budgeting" element={<Budgeting />} />
+            <Route path="/climate/weather-history" element={<WeatherHistory />} />
+            <Route path="/climate/gauges" element={<ClimateGauges />} />
+            <Route path="/climate/weather-logs" element={<WeatherLogs />} />
+            <Route path="/climate/weather-map" element={<WeatherMap />} />
           </Routes>
         </main>
       </div>

@@ -5,152 +5,20 @@ export const Tasks = () => {
     const [viewMode, setViewMode] = useState('list'); // 'list' or 'board'
     const [selectedUser, setSelectedUser] = useState('All Users');
     const [showUserDropdown, setShowUserDropdown] = useState(false);
+    const [tasks, setTasks] = useState([]); // Start empty to show empty state
+    const [showNewTaskModal, setShowNewTaskModal] = useState(false);
 
-    // Mock tasks data
-    const tasks = [
+    const sampleTasks = [
         {
             id: 1,
-            title: "Plant Basil - Brazilian in Carrot bed Field",
-            assignee: "Chris Doe (creator)",
-            status: "To Do",
-            due: "Feb. 12, 2021",
-            category: "planting"
-        },
-        {
-            id: 2,
-            title: "Start seeds for Basil - Brazilian from Carrot bed field",
-            assignee: "Chris Doe (creator)",
-            status: "To Do",
-            due: "Feb. 12, 2021",
-            category: "seeding"
-        },
-        {
-            id: 3,
-            title: "Plant Arugula Green in Test field",
-            assignee: "Chris Doe (creator)",
-            status: "To Do",
-            due: "Feb. 20, 2021",
-            category: "planting"
-        },
-        {
-            id: 4,
-            title: "Start seeds for Arugula, Green from Test Field",
-            assignee: "Chris Doe (creator)",
-            status: "To Do",
-            due: "Feb. 20, 2021",
-            category: "seeding"
-        },
-        {
-            id: 5,
-            title: "Crop location A, seeds",
-            assignee: "Chris Doe (creator)",
-            status: "To Do",
-            due: "Mar. 08, 2021",
-            category: "seeding"
-        },
-        {
-            id: 6,
-            title: "Crop field",
-            assignee: "Chris Doe (creator)",
-            status: "To Do",
-            due: "Mar. 09, 2021",
-            category: "field"
-        },
-        {
-            id: 7,
-            title: "Weekly to-do List",
-            assignee: "Chris Doe (creator)",
-            status: "To Do",
-            due: "Mar. 10, 2021",
-            category: "planning"
-        },
-        {
-            id: 8,
-            title: "Start seeds for Hemp, Rainbow from Hemp Field",
-            assignee: "Chris Doe (creator)",
-            status: "To Do",
-            due: "Mar. 16, 2021",
-            category: "seeding"
-        },
-        {
-            id: 9,
-            title: "Harvest Corn, Asdif from Black not location",
-            assignee: "Chris Doe (creator)",
-            status: "To Do",
-            due: "Apr. 15",
-            category: "harvest"
-        },
-        {
-            id: 10,
-            title: "Start seeds for Basil - Chicago from Northwest planting field",
-            assignee: "Chris Doe (creator)",
-            status: "In Progress",
-            due: "Apr. 16",
-            category: "seeding"
-        },
-        {
-            id: 11,
-            title: "Plant Corn in New field sorround",
-            assignee: "Chris Doe (creator)",
-            status: "To Do",
-            due: "Apr. 20",
-            category: "planting"
-        },
-        {
-            id: 12,
-            title: "Plant Broccoli, Calabrese in SS new field",
-            assignee: "Chris Doe (creator)",
-            status: "In Progress",
-            due: "Apr. 22",
-            category: "planting"
-        },
-        {
-            id: 13,
-            title: "Start seeds for Corn from New Field location",
-            assignee: "Chris Doe (creator)",
-            status: "To Do",
-            due: "Apr. 25",
-            category: "seeding"
-        },
-        {
-            id: 14,
-            title: "Start seeds for Hemp, Cloudberry from Hemp pleasant T field",
-            assignee: "Chris Doe (creator)",
-            status: "In Progress",
-            due: "Apr. 28",
-            category: "seeding"
-        },
-        {
-            id: 15,
-            title: "Start Cocoa, Trinidad in Cocoa orchard location",
-            assignee: "Chris Doe (creator)",
-            status: "In Progress",
-            due: "Apr. 30",
-            category: "planting"
-        },
-        {
-            id: 16,
-            title: "Plant Corn, Asdif to Black x0 location",
-            assignee: "Chris Doe (creator)",
-            status: "To Do",
-            due: "May 02",
-            category: "planting"
-        },
-        {
-            id: 17,
-            title: "Start seeds for Corn, Asdif from Black x0 field",
-            assignee: "Chris Doe (creator)",
-            status: "To Do",
-            due: "May 05",
-            category: "seeding"
-        },
-        {
-            id: 18,
-            title: "Plant trees",
-            assignee: "Chris Doe (creator)",
-            status: "To Do",
-            due: "May 10",
-            category: "planting"
+            title: 'Zhyu',
+            description: 'Rephryen',
+            associatedTo: '',
+            dueDate: 'Sep. 22, 2025',
+            priority: 'Highest',
+            status: 'To Do',
+            assignee: 'Farai',
+            avatar: 'F'
         }
     ];
 
@@ -161,47 +29,85 @@ export const Tasks = () => {
         'Done': tasks.filter(task => task.status === 'Done')
     };
 
+    // Form states for new task
+    const [newTask, setNewTask] = useState({
+        title: '',
+        description: '',
+        status: 'To Do',
+        assignedTo: 'Farai',
+        additionalCollaborators: [],
+        priority: '',
+        dueDate: '',
+        repeats: 'Does not repeat',
+        hoursSpent: '',
+        associatedTo: '',
+        taskColor: '#3b82f6'
+    });
+
+    // Color options array
+    const colorOptions = [
+        '#9ca3af', '#ef4444', '#f59e0b', '#8b5cf6', '#3b82f6', '#06b6d4',
+        '#10b981', '#84cc16', '#eab308', '#f97316', '#ef4444', '#dc2626',
+        '#7c2d12', '#374151'
+    ];
+
     const users = ['All Users', 'Chris Doe', 'John Smith', 'Sarah Johnson'];
 
     const ListView = () => (
         <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-            {/* Table Header */}
-            <div className="grid grid-cols-12 gap-4 px-6 py-3 bg-gray-50 border-b border-gray-200 text-sm font-medium text-gray-600">
-                <div className="col-span-1"></div>
-                <div className="col-span-5">TASK</div>
-                <div className="col-span-2">ASSIGNEE</div>
-                <div className="col-span-2">STATUS</div>
-                <div className="col-span-2">DUE</div>
-            </div>
-
-            {/* Task Rows */}
-            <div className="divide-y divide-gray-200">
-                {tasks.map((task) => (
-                    <div key={task.id} className="grid grid-cols-12 gap-4 px-6 py-4 hover:bg-gray-50 transition-colors duration-150">
-                        <div className="col-span-1 flex items-center">
-                            <Circle className="w-5 h-5 text-gray-400" />
-                        </div>
-                        <div className="col-span-5">
-                            <div className="text-sm font-medium text-gray-900">{task.title}</div>
-                            <div className="text-xs text-gray-500 mt-1">{task.category}</div>
-                        </div>
-                        <div className="col-span-2 flex items-center">
-                            <div className="w-6 h-6 bg-gray-300 rounded-full mr-2"></div>
-                            <span className="text-sm text-gray-600">To Do</span>
-                        </div>
-                        <div className="col-span-2 flex items-center">
-                            <span className="text-sm text-gray-600">{task.status}</span>
-                        </div>
-                        <div className="col-span-1 flex items-center">
-                            <span className="text-sm text-gray-600">{task.due}</span>
-                        </div>
-                        <div className="col-span-1 flex items-center justify-end">
-                            <button className="text-red-500 hover:text-red-700">
-                                <X className="w-4 h-4" />
-                            </button>
-                        </div>
-                    </div>
-                ))}
+            <table className="min-w-full">
+                <thead className="bg-gray-50 border-b border-gray-200">
+                    <tr>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-12">
+                            <input type="checkbox" className="rounded border-gray-300" />
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Task</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Associated To</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Due
+                            <span className="ml-1">▲</span>
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Priority</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Assignee</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-12"></th>
+                    </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                    {tasks.map((task) => (
+                        <tr key={task.id} className="hover:bg-gray-50">
+                            <td className="px-6 py-4">
+                                <input type="checkbox" className="rounded border-gray-300" />
+                            </td>
+                            <td className="px-6 py-4">
+                                <div className="text-sm font-medium text-gray-900">{task.title}</div>
+                                <div className="text-xs text-gray-500">{task.description}</div>
+                            </td>
+                            <td className="px-6 py-4 text-sm text-gray-900">{task.associatedTo}</td>
+                            <td className="px-6 py-4 text-sm text-gray-900">{task.dueDate}</td>
+                            <td className="px-6 py-4">
+                                <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800">
+                                    {task.priority}
+                                </span>
+                            </td>
+                            <td className="px-6 py-4 text-sm text-gray-900">{task.status}</td>
+                            <td className="px-6 py-4">
+                                <div className="flex items-center">
+                                    <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center text-white text-sm mr-2">
+                                        {task.avatar}
+                                    </div>
+                                    <span className="text-sm text-gray-900">{task.assignee}</span>
+                                </div>
+                            </td>
+                            <td className="px-6 py-4">
+                                <button className="text-gray-400 hover:text-gray-600 p-1">⋯</button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+            <div className="px-6 py-3 bg-gray-50 border-t border-gray-200">
+                <p className="text-sm text-gray-700">Displaying {tasks.length} record{tasks.length !== 1 ? 's' : ''}</p>
             </div>
         </div>
     );
@@ -248,6 +154,275 @@ export const Tasks = () => {
             ))}
         </div>
     );
+    
+    const EmptyTasksState = ({ onAddTask }) => (
+        <div className="flex flex-col items-center justify-center py-20">
+            {/* Dotted rectangle containing all the content - made wider */}
+            <div className="border-2 border-dashed border-gray-300 rounded-lg p-12 flex flex-col items-center w-full max-w-6xl">
+                <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center mb-6">
+                    <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                        <line x1="16" y1="2" x2="16" y2="6" />
+                        <line x1="8" y1="2" x2="8" y2="6" />
+                        <line x1="3" y1="10" x2="21" y2="10" />
+                    </svg>
+                </div>
+                <h3 className="text-lg font-medium text-gray-900 mb-3">Nothing to do yet?</h3>
+                <p className="text-gray-600 mb-5 text-center">Add a new task and it will show up here.</p>
+                <p className="text-sm text-gray-500 text-center">
+                    Need help? Check out this <span className="text-blue-600 cursor-pointer hover:underline">Getting Started Guide</span>.
+                </p>
+            </div>
+        </div>
+    );
+    
+    // New Task Modal Component
+    const NewTaskModal = () => {
+        const handleSubmit = (e) => {
+            e.preventDefault();
+
+            // Create a new task object with a unique ID
+            const taskToAdd = {
+                id: tasks.length > 0 ? Math.max(...tasks.map(task => task.id)) + 1 : 1,
+                title: newTask.title,
+                description: newTask.description,
+                associatedTo: newTask.associatedTo,
+                dueDate: newTask.dueDate,
+                priority: newTask.priority,
+                status: newTask.status,
+                assignee: newTask.assignedTo,
+                avatar: newTask.assignedTo.charAt(0)
+            };
+
+            // Add the new task to the tasks array
+            setTasks([...tasks, taskToAdd]);
+
+            // Close the modal and reset the form
+            setShowNewTaskModal(false);
+            setNewTask({
+                title: '',
+                description: '',
+                status: 'To Do',
+                assignedTo: 'Farai',
+                additionalCollaborators: [],
+                priority: '',
+                dueDate: '',
+                repeats: 'Does not repeat',
+                hoursSpent: '',
+                associatedTo: '',
+                taskColor: '#3b82f6'
+            });
+        };
+
+        return (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                <div className="bg-white rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+                    <div className="flex justify-between items-center mb-6">
+                        <h2 className="text-xl font-semibold">New Task</h2>
+                        <button onClick={() => setShowNewTaskModal(false)} className="text-gray-500 hover:text-gray-700 text-2xl">
+                            ×
+                        </button>
+                    </div>
+
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                        <div className="grid grid-cols-2 gap-6">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Title</label>
+                                <input
+                                    type="text"
+                                    placeholder="Example: Plow field"
+                                    value={newTask.title}
+                                    onChange={(e) => setNewTask({ ...newTask, title: e.target.value })}
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
+                                    required
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                                <select
+                                    value={newTask.status}
+                                    onChange={(e) => setNewTask({ ...newTask, status: e.target.value })}
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
+                                >
+                                    <option value="To Do">To Do</option>
+                                    <option value="In Progress">In Progress</option>
+                                    <option value="Done">Done</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                            <div className="border border-gray-300 rounded-md">
+                                <div className="flex items-center space-x-2 p-2 border-b border-gray-200">
+                                    <select className="text-sm border-none">
+                                        <option>Normal</option>
+                                    </select>
+                                    <button type="button" className="p-1"><strong>B</strong></button>
+                                    <button type="button" className="p-1"><em>I</em></button>
+                                    <button type="button" className="p-1"><u>U</u></button>
+                                    <button type="button" className="p-1"><s>S</s></button>
+                                    <button type="button" className="p-1">A</button>
+                                    <button type="button" className="p-1">≡</button>
+                                    <button type="button" className="p-1">≡</button>
+                                    <button type="button" className="p-1">≡</button>
+                                    <button type="button" className="p-1">≡</button>
+                                    <button type="button" className="p-1">🔗</button>
+                                </div>
+                                <textarea
+                                    placeholder="What needs to be done? Add some details or a description..."
+                                    value={newTask.description}
+                                    onChange={(e) => setNewTask({ ...newTask, description: e.target.value })}
+                                    className="w-full p-3 border-none focus:outline-none resize-none"
+                                    rows="4"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-6">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Assigned To</label>
+                                <select
+                                    value={newTask.assignedTo}
+                                    onChange={(e) => setNewTask({ ...newTask, assignedTo: e.target.value })}
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
+                                >
+                                    <option value="Farai">Farai</option>
+                                    <option value="Sarah">Sarah</option>
+                                    <option value="Michael">Michael</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Priority</label>
+                                <select
+                                    value={newTask.priority}
+                                    onChange={(e) => setNewTask({ ...newTask, priority: e.target.value })}
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
+                                >
+                                    <option value="">Select Priority</option>
+                                    <option value="Low">Low</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="High">High</option>
+                                    <option value="Highest">Highest</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Additional Collaborators</label>
+                            <div className="flex items-center">
+                                <button type="button" className="text-gray-400 hover:text-gray-600">
+                                    <i className="fas fa-plus-circle"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-6">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Due Date</label>
+                                <input
+                                    type="text"
+                                    placeholder="dd/mm/yyyy"
+                                    value={newTask.dueDate}
+                                    onChange={(e) => setNewTask({ ...newTask, dueDate: e.target.value })}
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
+                                />
+                                <div className="text-xs text-blue-600 mt-1">
+                                    <i className="fas fa-clock mr-1"></i>Set Start Date/Time
+                                </div>
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Repeats</label>
+                                <select
+                                    value={newTask.repeats}
+                                    onChange={(e) => setNewTask({ ...newTask, repeats: e.target.value })}
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
+                                >
+                                    <option value="Does not repeat">Does not repeat</option>
+                                    <option value="Daily">Daily</option>
+                                    <option value="Weekly">Weekly</option>
+                                    <option value="Monthly">Monthly</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Hours Spent</label>
+                            <input
+                                type="number"
+                                value={newTask.hoursSpent}
+                                onChange={(e) => setNewTask({ ...newTask, hoursSpent: e.target.value })}
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
+                            />
+                        </div>
+
+                        <div className="flex space-x-4">
+                            <button type="button" className="text-blue-600 hover:text-blue-800">
+                                <i className="fas fa-list mr-2"></i>Add Checklist Item
+                            </button>
+                            <button type="button" className="text-blue-600 hover:text-blue-800">
+                                <i className="fas fa-map-marker-alt mr-2"></i>Add Map Location
+                            </button>
+                        </div>
+
+                        <div>
+                            <button type="button" className="text-blue-600 hover:text-blue-800">
+                                <i className="fas fa-paperclip mr-2"></i>Add Attachment
+                            </button>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Associated To</label>
+                            <div className="relative">
+                                <input
+                                    type="text"
+                                    placeholder="Find Animal, Equipment"
+                                    value={newTask.associatedTo}
+                                    onChange={(e) => setNewTask({ ...newTask, associatedTo: e.target.value })}
+                                    className="w-full px-3 py-2 pl-8 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
+                                />
+                                <i className="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Task Color</label>
+                            <div className="flex flex-wrap gap-2">
+                                {colorOptions.map((color, index) => (
+                                    <button
+                                        key={index}
+                                        type="button"
+                                        onClick={() => setNewTask({ ...newTask, taskColor: color })}
+                                        className={`w-6 h-6 rounded-full border-2 ${newTask.taskColor === color ? 'border-gray-900' : 'border-gray-300'}`}
+                                        style={{ backgroundColor: color }}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="flex justify-end space-x-3 pt-4">
+                            <button
+                                type="button"
+                                onClick={() => setShowNewTaskModal(false)}
+                                className="px-4 py-2 text-gray-600 hover:text-gray-800"
+                            >
+                                Close
+                            </button>
+                            <button
+                                type="submit"
+                                className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+                            >
+                                Create
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        );
+    };
 
     return (
         <div className="p-6 bg-gray-50 min-h-screen">
@@ -261,8 +436,8 @@ export const Tasks = () => {
                             <button
                                 onClick={() => setViewMode('list')}
                                 className={`p-2 rounded-md transition-colors duration-200 flex items-center space-x-2 ${viewMode === 'list'
-                                        ? 'bg-white text-gray-800 shadow-sm'
-                                        : 'text-gray-600 hover:text-gray-800'
+                                    ? 'bg-white text-gray-800 shadow-sm'
+                                    : 'text-gray-600 hover:text-gray-800'
                                     }`}
                             >
                                 <List className="w-4 h-4" />
@@ -271,8 +446,8 @@ export const Tasks = () => {
                             <button
                                 onClick={() => setViewMode('board')}
                                 className={`p-2 rounded-md transition-colors duration-200 flex items-center space-x-2 ${viewMode === 'board'
-                                        ? 'bg-white text-gray-800 shadow-sm'
-                                        : 'text-gray-600 hover:text-gray-800'
+                                    ? 'bg-white text-gray-800 shadow-sm'
+                                    : 'text-gray-600 hover:text-gray-800'
                                     }`}
                             >
                                 <LayoutGrid className="w-4 h-4" />
@@ -283,74 +458,42 @@ export const Tasks = () => {
                 </div>
 
                 {/* Controls */}
-                <div className="flex items-center justify-between mb-6">
-                    <div className="flex items-center space-x-4">
-                        {/* New Task Button */}
-                        <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center space-x-2">
-                            <Plus className="w-4 h-4" />
-                            <span>New Task</span>
-                        </button>
 
-                        {/* Print Button */}
-                        <button className="text-gray-600 hover:text-gray-800 p-2">
-                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                <path fillRule="evenodd" d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a2 2 0 002 2h6a2 2 0 002-2v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zM5 14H4v-3h1v3zm1 0v2h8v-2H6z" clipRule="evenodd" />
-                            </svg>
+                <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center space-x-3">
+                        <button
+                            onClick={() => setShowNewTaskModal(true)}
+                            className="bg-green-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-green-700"
+                        >
+                            Add Task
                         </button>
+                        <button className="text-gray-600 hover:text-gray-800 px-3 py-2 text-sm border border-gray-300 rounded-md">
+                            Use Template
+                        </button>
+                        <button className="text-gray-500 hover:text-gray-700 p-2">⋯</button>
                     </div>
 
                     <div className="flex items-center space-x-4">
-                        {/* User Filter */}
-                        <div className="relative">
-                            <button
-                                onClick={() => setShowUserDropdown(!showUserDropdown)}
-                                className="flex items-center space-x-2 px-4 py-2 bg-white border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50"
-                            >
-                                <span>{selectedUser}</span>
-                                <ChevronDown className="w-4 h-4" />
-                            </button>
-
-                            {showUserDropdown && (
-                                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-gray-200 z-10">
-                                    <div className="py-1">
-                                        {users.map((user) => (
-                                            <button
-                                                key={user}
-                                                onClick={() => {
-                                                    setSelectedUser(user);
-                                                    setShowUserDropdown(false);
-                                                }}
-                                                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                            >
-                                                {user}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-
-                        {/* Filter Button */}
-                        <button className="px-4 py-2 bg-white border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50">
-                            Filter
-                        </button>
-
-                        {/* Search */}
-                        <div className="relative">
-                            <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
-                                <Search className="w-4 h-4 text-gray-400" />
-                            </div>
-                            <input
-                                type="text"
-                                placeholder=""
-                                className="pr-10 pl-4 py-2 w-64 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
-                            />
-                        </div>
+                        <input
+                            type="text"
+                            placeholder="Search Tasks"
+                            className="px-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-green-500"
+                        />
+                        <select className="px-3 py-2 border border-gray-300 rounded-md text-sm">
+                            <option>All Users</option>
+                        </select>
+                        <select className="px-3 py-2 border border-gray-300 rounded-md text-sm">
+                            <option>All</option>
+                        </select>
                     </div>
                 </div>
-
+                {showNewTaskModal && <NewTaskModal />}
                 {/* Content */}
-                {viewMode === 'list' ? <ListView /> : <BoardView />}
+                {tasks.length === 0 ? (
+                    <EmptyTasksState onAddTask={() => setShowNewTaskModal(true)} />
+                ) : (
+                    viewMode === 'list' ? <ListView /> : <BoardView />
+                )}
             </div>
         </div>
     );

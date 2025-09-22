@@ -22,6 +22,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const [livestockOpen, setLivestockOpen] = useState(false);
   const [resourcesOpen, setResourcesOpen] = useState(false);
   const [marketOpen, setMarketOpen] = useState(false);
+  const [climateOpen, setClimateOpen] = useState(false);
   const [accountDropdownOpen, setAccountDropdownOpen] = useState(false);
 
   const location = useLocation();
@@ -62,6 +63,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
       setActiveMenu('farm-map');
     } else if (path.startsWith('/reports')) {
       setActiveMenu('reports');
+    } else if (path.startsWith('/climate')) {
+      setActiveMenu('climate');
+      setClimateOpen(true);
     }
   }, [location.pathname, setActiveMenu]);
 
@@ -70,9 +74,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'tasks', icon: 'fa-tasks', label: 'Tasks', path: '/tasks' },
     // { id: 'livestock', icon: 'fa-horse', label: 'Livestock', hasSub: true, path: '/livestock' },
     { id: 'crops', icon: 'fa-seedling', label: 'Crops', hasSub: true, path: '/crops' },
-    { id: 'resources', icon: 'fa-tools', label: 'Resources', hasSub: true, path: '/resources' },
+    { id: 'resources', icon: 'fa-tractor', label: 'Resources', hasSub: true, path: '/resources' },
     { id: 'accounting', icon: 'fa-calculator', label: 'Accounting', hasSub: true, path: '/accounting' },
     { id: 'market', icon: 'fa-store', label: 'Market', hasSub: true, path: '/market' },
+    { id: 'climate', icon: 'fa-cloud-sun', label: 'Climate', hasSub: true, path: '/climate' },
     { id: 'contacts', icon: 'fa-address-book', label: 'Contacts', path: '/contacts' },
     { id: 'farm-map', icon: 'fa-map', label: 'Farm Map', path: '/farm-map' },
     { id: 'reports', icon: 'fa-chart-bar', label: 'Reports', path: '/reports' },
@@ -99,11 +104,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'inventory', icon: 'fa-boxes', label: 'Inventory', path: '/resources/inventory' },
   ];
 
-
   const accountingSubItems = [
     { id: 'transactions', icon: 'fa-exchange-alt', label: 'Transactions', path: '/accounting/transactions' },
     { id: 'pnl', icon: 'fa-chart-line', label: 'P&L Statement', path: '/accounting/pnl' },
     { id: 'cashflow', icon: 'fa-coins', label: 'Cash Flow', path: '/accounting/cashflow' },
+    { id: 'balance-sheet', icon: 'fa-balance-scale', label: 'Balance Sheet', path: '/accounting/balance-sheet' },
+    { id: 'budgeting', icon: 'fa-wallet', label: 'Budgeting', path: '/accounting/budgeting' },
   ];
 
   const marketSubItems = [
@@ -112,6 +118,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'orders', icon: 'fa-shopping-bag', label: 'Orders', path: '/market/orders' },
   ];
 
+  const climateSubItems = [
+    { id: 'weather-history', icon: 'fa-history', label: 'Weather History', path: '/climate/weather-history' },
+    { id: 'gauges', icon: 'fa-tachometer-alt', label: 'Gauges', path: '/climate/gauges' },
+    { id: 'weather-logs', icon: 'fa-clipboard-list', label: 'Weather Logs', path: '/climate/weather-logs' },
+    { id: 'weather-map', icon: 'fa-map-marked-alt', label: 'Weather Map', path: '/climate/weather-map' },
+  ];
 
   const { logout } = useAuth();
 
@@ -221,6 +233,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       setResourcesOpen(!resourcesOpen);
                     } else if (item.id === 'market') {
                       setMarketOpen(!marketOpen);
+                    } else if (item.id === 'climate') {
+                      setClimateOpen(!climateOpen);
                     }
                   } else {
                     navigate(item.path);
@@ -228,8 +242,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   }
                 }}
                 className={`mx-3 flex items-center px-3 py-2.5 rounded-md cursor-pointer transition-all duration-200 group ${activeMenu === item.id
-                    ? 'bg-green-50 text-green-700 font-medium'
-                    : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                  ? 'bg-green-50 text-green-700 font-medium'
+                  : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
                   }`}
               >
                 <div className="flex items-center justify-center w-5 h-5 mr-3">
@@ -239,11 +253,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 <span className="text-sm font-medium truncate flex-1">{item.label}</span>
                 {item.hasSub && (
                   <i className={`fas ml-2 text-xs transition-transform duration-200 ${(item.id === 'accounting' && accountingOpen) ||
-                      (item.id === 'crops' && cropsOpen) ||
-                      (item.id === 'livestock' && livestockOpen) ||
-                      (item.id === 'resources' && resourcesOpen) ||
-                      (item.id === 'market' && marketOpen)
-                      ? 'fa-chevron-up' : 'fa-chevron-down'
+                    (item.id === 'crops' && cropsOpen) ||
+                    (item.id === 'livestock' && livestockOpen) ||
+                    (item.id === 'resources' && resourcesOpen) ||
+                    (item.id === 'market' && marketOpen) ||
+                    (item.id === 'climate' && climateOpen)
+                    ? 'fa-chevron-up' : 'fa-chevron-down'
                     } text-gray-400`}></i>
                 )}
               </div>
@@ -258,7 +273,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       onClick={() => setActiveMenu('crops')}
                       className="flex items-center px-3 py-2 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded-md transition-colors duration-200"
                     >
-                      <i className={`fas ${subItem.icon} mr-3 w-4 text-xs text-gray-500`}></i>
+                      {/* <i className={`fas ${subItem.icon} mr-3 w-4 text-xs text-gray-500`}></i> */}
                       {subItem.label}
                     </Link>
                   ))}
@@ -274,7 +289,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       onClick={() => setActiveMenu('livestock')}
                       className="flex items-center px-3 py-2 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded-md transition-colors duration-200"
                     >
-                      <i className={`fas ${subItem.icon} mr-3 w-4 text-xs text-gray-500`}></i>
+                      {/* <i className={`fas ${subItem.icon} mr-3 w-4 text-xs text-gray-500`}></i> */}
                       {subItem.label}
                     </Link>
                   ))}
@@ -290,7 +305,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       onClick={() => setActiveMenu('resources')}
                       className="flex items-center px-3 py-2 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded-md transition-colors duration-200"
                     >
-                      <i className={`fas ${subItem.icon} mr-3 w-4 text-xs text-gray-500`}></i>
+                      {/* <i className={`fas ${subItem.icon} mr-3 w-4 text-xs text-gray-500`}></i> */}
                       {subItem.label}
                     </Link>
                   ))}
@@ -306,7 +321,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       onClick={() => setActiveMenu('market')}
                       className="flex items-center px-3 py-2 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded-md transition-colors duration-200"
                     >
-                      <i className={`fas ${subItem.icon} mr-3 w-4 text-xs text-gray-500`}></i>
+                      {/* <i className={`fas ${subItem.icon} mr-3 w-4 text-xs text-gray-500`}></i> */}
                       {subItem.label}
                     </Link>
                   ))}
@@ -323,7 +338,24 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       onClick={() => setActiveMenu('accounting')}
                       className="flex items-center px-3 py-2 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded-md transition-colors duration-200"
                     >
-                      <i className={`fas ${subItem.icon} mr-3 w-4 text-xs text-gray-500`}></i>
+                      {/* <i className={`fas ${subItem.icon} mr-3 w-4 text-xs text-gray-500`}></i> */}
+                      {subItem.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+
+              {/* Submenu for Climate */}
+              {item.id === 'climate' && climateOpen && (
+                <div className="ml-8 mr-3 mt-1 space-y-1">
+                  {climateSubItems.map((subItem) => (
+                    <Link
+                      key={subItem.id}
+                      to={subItem.path}
+                      onClick={() => setActiveMenu('climate')}
+                      className="flex items-center px-3 py-2 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded-md transition-colors duration-200"
+                    >
+                      {/* <i className={`fas ${subItem.icon} mr-3 w-4 text-xs text-gray-500`}></i> */}
                       {subItem.label}
                     </Link>
                   ))}

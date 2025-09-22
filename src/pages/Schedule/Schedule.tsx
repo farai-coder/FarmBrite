@@ -10,6 +10,8 @@ export const SchedulePage = () => {
     const [showEventModal, setShowEventModal] = useState(false);
     const [showTaskModal, setShowTaskModal] = useState(false);
     const [activeTab, setActiveTab] = useState('calendar');
+    const [showNewEventModal, setShowNewEventModal] = useState(false);
+    const [showNewTaskModal, setShowNewTaskModal] = useState(false);
 
     // Sample events data
     const events = [
@@ -92,6 +94,47 @@ export const SchedulePage = () => {
         },
     ];
 
+
+    // Form states for new event
+    const [newEvent, setNewEvent] = useState({
+        title: '',
+        startDate: moment().format('DD/MM/YYYY'),
+        startTime: '12 AM',
+        startMinutes: '00',
+        endDate: moment().format('DD/MM/YYYY'),
+        endTime: '1 AM',
+        endMinutes: '00',
+        allDay: false,
+        assignedTo: 'Farai',
+        invitedUsers: [],
+        repeats: 'Does not repeat',
+        description: '',
+        associatedTo: '',
+        color: '#3b82f6'
+    });
+
+    // Form states for new task
+    const [newTask, setNewTask] = useState({
+        title: '',
+        description: '',
+        status: 'To Do',
+        assignedTo: 'Farai',
+        additionalCollaborators: [],
+        priority: '',
+        dueDate: '',
+        repeats: 'Does not repeat',
+        hoursSpent: '',
+        associatedTo: '',
+        taskColor: '#3b82f6'
+    });
+
+    // 2. ADD THIS COLOR OPTIONS ARRAY
+    const colorOptions = [
+        '#9ca3af', '#ef4444', '#f59e0b', '#8b5cf6', '#3b82f6', '#06b6d4',
+        '#10b981', '#84cc16', '#eab308', '#f97316', '#ef4444', '#dc2626',
+        '#7c2d12', '#374151'
+    ];
+
     const EventModal = ({ event, onClose }) => {
         if (!event) return null;
 
@@ -170,6 +213,481 @@ export const SchedulePage = () => {
         );
     };
 
+    // 3. ADD THESE MODAL COMPONENTS INSIDE YOUR MAIN COMPONENT
+
+    // New Event Modal Component
+    const NewEventModal = () => {
+        const handleSubmit = (e) => {
+            e.preventDefault();
+            console.log('New Event:', newEvent);
+            setShowNewEventModal(false);
+            // Reset form
+            setNewEvent({
+                title: '',
+                startDate: moment().format('DD/MM/YYYY'),
+                startTime: '12 AM',
+                startMinutes: '00',
+                endDate: moment().format('DD/MM/YYYY'),
+                endTime: '1 AM',
+                endMinutes: '00',
+                allDay: false,
+                assignedTo: 'Farai',
+                invitedUsers: [],
+                repeats: 'Does not repeat',
+                description: '',
+                associatedTo: '',
+                color: '#3b82f6'
+            });
+        };
+
+        return (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                <div className="bg-white rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+                    <div className="flex justify-between items-center mb-6">
+                        <h2 className="text-xl font-semibold">New Event</h2>
+                        <button onClick={() => setShowNewEventModal(false)} className="text-gray-500 hover:text-gray-700 text-2xl">
+                            ×
+                        </button>
+                    </div>
+
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                        <div className="grid grid-cols-2 gap-6">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Title</label>
+                                <input
+                                    type="text"
+                                    placeholder="Example: Vet Appointment"
+                                    value={newEvent.title}
+                                    onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Assigned To</label>
+                                <select
+                                    value={newEvent.assignedTo}
+                                    onChange={(e) => setNewEvent({ ...newEvent, assignedTo: e.target.value })}
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
+                                >
+                                    <option value="Farai">Farai</option>
+                                    <option value="Sarah">Sarah</option>
+                                    <option value="Michael">Michael</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Starting</label>
+                            <div className="flex items-center space-x-2">
+                                <input
+                                    type="text"
+                                    value={newEvent.startDate}
+                                    onChange={(e) => setNewEvent({ ...newEvent, startDate: e.target.value })}
+                                    className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
+                                />
+                                <select
+                                    value={newEvent.startTime}
+                                    onChange={(e) => setNewEvent({ ...newEvent, startTime: e.target.value })}
+                                    className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
+                                >
+                                    {['12 AM', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM'].map(time => (
+                                        <option key={time} value={time}>{time}</option>
+                                    ))}
+                                </select>
+                                <select
+                                    value={newEvent.startMinutes}
+                                    onChange={(e) => setNewEvent({ ...newEvent, startMinutes: e.target.value })}
+                                    className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
+                                >
+                                    <option value="00">00</option>
+                                    <option value="15">15</option>
+                                    <option value="30">30</option>
+                                    <option value="45">45</option>
+                                </select>
+                                <label className="flex items-center">
+                                    <input
+                                        type="checkbox"
+                                        checked={newEvent.allDay}
+                                        onChange={(e) => setNewEvent({ ...newEvent, allDay: e.target.checked })}
+                                        className="mr-2"
+                                    />
+                                    All Day
+                                </label>
+                            </div>
+                            <div className="text-xs text-gray-500 mt-1">Mountain Time (US & Canada)</div>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Ending</label>
+                            <div className="flex items-center space-x-2">
+                                <input
+                                    type="text"
+                                    value={newEvent.endDate}
+                                    onChange={(e) => setNewEvent({ ...newEvent, endDate: e.target.value })}
+                                    className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
+                                />
+                                <select
+                                    value={newEvent.endTime}
+                                    onChange={(e) => setNewEvent({ ...newEvent, endTime: e.target.value })}
+                                    className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
+                                >
+                                    {['1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM'].map(time => (
+                                        <option key={time} value={time}>{time}</option>
+                                    ))}
+                                </select>
+                                <select
+                                    value={newEvent.endMinutes}
+                                    onChange={(e) => setNewEvent({ ...newEvent, endMinutes: e.target.value })}
+                                    className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
+                                >
+                                    <option value="00">00</option>
+                                    <option value="15">15</option>
+                                    <option value="30">30</option>
+                                    <option value="45">45</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-6">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Invited Users</label>
+                                <div className="flex items-center">
+                                    <button type="button" className="text-gray-400 hover:text-gray-600">
+                                        <i className="fas fa-plus-circle"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Repeats</label>
+                                <select
+                                    value={newEvent.repeats}
+                                    onChange={(e) => setNewEvent({ ...newEvent, repeats: e.target.value })}
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
+                                >
+                                    <option value="Does not repeat">Does not repeat</option>
+                                    <option value="Daily">Daily</option>
+                                    <option value="Weekly">Weekly</option>
+                                    <option value="Monthly">Monthly</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                            <div className="border border-gray-300 rounded-md">
+                                <div className="flex items-center space-x-2 p-2 border-b border-gray-200">
+                                    <select className="text-sm border-none">
+                                        <option>Normal</option>
+                                    </select>
+                                    <button type="button" className="p-1"><strong>B</strong></button>
+                                    <button type="button" className="p-1"><em>I</em></button>
+                                    <button type="button" className="p-1"><u>U</u></button>
+                                    <button type="button" className="p-1"><s>S</s></button>
+                                    <button type="button" className="p-1">A</button>
+                                    <button type="button" className="p-1">≡</button>
+                                    <button type="button" className="p-1">≡</button>
+                                    <button type="button" className="p-1">≡</button>
+                                    <button type="button" className="p-1">≡</button>
+                                    <button type="button" className="p-1">🔗</button>
+                                </div>
+                                <textarea
+                                    placeholder="Add some details or a description..."
+                                    value={newEvent.description}
+                                    onChange={(e) => setNewEvent({ ...newEvent, description: e.target.value })}
+                                    className="w-full p-3 border-none focus:outline-none resize-none"
+                                    rows="4"
+                                />
+                            </div>
+                        </div>
+
+                        <div>
+                            <button type="button" className="text-blue-600 hover:text-blue-800">
+                                <i className="fas fa-paperclip mr-2"></i>Add Attachment
+                            </button>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Associated To</label>
+                            <div className="relative">
+                                <input
+                                    type="text"
+                                    placeholder="Find Animal, Equipment"
+                                    value={newEvent.associatedTo}
+                                    onChange={(e) => setNewEvent({ ...newEvent, associatedTo: e.target.value })}
+                                    className="w-full px-3 py-2 pl-8 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
+                                />
+                                <i className="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Color</label>
+                            <div className="flex flex-wrap gap-2">
+                                {colorOptions.map((color, index) => (
+                                    <button
+                                        key={index}
+                                        type="button"
+                                        onClick={() => setNewEvent({ ...newEvent, color: color })}
+                                        className={`w-6 h-6 rounded-full border-2 ${newEvent.color === color ? 'border-gray-900' : 'border-gray-300'}`}
+                                        style={{ backgroundColor: color }}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="flex justify-end space-x-3 pt-4">
+                            <button
+                                type="button"
+                                onClick={() => setShowNewEventModal(false)}
+                                className="px-4 py-2 text-gray-600 hover:text-gray-800"
+                            >
+                                Close
+                            </button>
+                            <button
+                                type="submit"
+                                className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+                            >
+                                Create
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        );
+    };
+
+    // New Task Modal Component
+    const NewTaskModal = () => {
+        const handleSubmit = (e) => {
+            e.preventDefault();
+            console.log('New Task:', newTask);
+            setShowNewTaskModal(false);
+            // Reset form
+            setNewTask({
+                title: '',
+                description: '',
+                status: 'To Do',
+                assignedTo: 'Farai',
+                additionalCollaborators: [],
+                priority: '',
+                dueDate: '',
+                repeats: 'Does not repeat',
+                hoursSpent: '',
+                associatedTo: '',
+                taskColor: '#3b82f6'
+            });
+        };
+
+        return (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                <div className="bg-white rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+                    <div className="flex justify-between items-center mb-6">
+                        <h2 className="text-xl font-semibold">New Task</h2>
+                        <button onClick={() => setShowNewTaskModal(false)} className="text-gray-500 hover:text-gray-700 text-2xl">
+                            ×
+                        </button>
+                    </div>
+
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                        <div className="grid grid-cols-2 gap-6">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Title</label>
+                                <input
+                                    type="text"
+                                    placeholder="Example: Plow field"
+                                    value={newTask.title}
+                                    onChange={(e) => setNewTask({ ...newTask, title: e.target.value })}
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                                <select
+                                    value={newTask.status}
+                                    onChange={(e) => setNewTask({ ...newTask, status: e.target.value })}
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
+                                >
+                                    <option value="To Do">To Do</option>
+                                    <option value="In Progress">In Progress</option>
+                                    <option value="Completed">Completed</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                            <div className="border border-gray-300 rounded-md">
+                                <div className="flex items-center space-x-2 p-2 border-b border-gray-200">
+                                    <select className="text-sm border-none">
+                                        <option>Normal</option>
+                                    </select>
+                                    <button type="button" className="p-1"><strong>B</strong></button>
+                                    <button type="button" className="p-1"><em>I</em></button>
+                                    <button type="button" className="p-1"><u>U</u></button>
+                                    <button type="button" className="p-1"><s>S</s></button>
+                                    <button type="button" className="p-1">A</button>
+                                    <button type="button" className="p-1">≡</button>
+                                    <button type="button" className="p-1">≡</button>
+                                    <button type="button" className="p-1">≡</button>
+                                    <button type="button" className="p-1">≡</button>
+                                    <button type="button" className="p-1">🔗</button>
+                                </div>
+                                <textarea
+                                    placeholder="What needs to be done? Add some details or a description..."
+                                    value={newTask.description}
+                                    onChange={(e) => setNewTask({ ...newTask, description: e.target.value })}
+                                    className="w-full p-3 border-none focus:outline-none resize-none"
+                                    rows="4"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-6">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Assigned To</label>
+                                <select
+                                    value={newTask.assignedTo}
+                                    onChange={(e) => setNewTask({ ...newTask, assignedTo: e.target.value })}
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
+                                >
+                                    <option value="Farai">Farai</option>
+                                    <option value="Sarah">Sarah</option>
+                                    <option value="Michael">Michael</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Priority</label>
+                                <select
+                                    value={newTask.priority}
+                                    onChange={(e) => setNewTask({ ...newTask, priority: e.target.value })}
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
+                                >
+                                    <option value="">Select Priority</option>
+                                    <option value="Low">Low</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="High">High</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Additional Collaborators</label>
+                            <div className="flex items-center">
+                                <button type="button" className="text-gray-400 hover:text-gray-600">
+                                    <i className="fas fa-plus-circle"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-6">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Due Date</label>
+                                <input
+                                    type="text"
+                                    placeholder="dd/mm/yyyy"
+                                    value={newTask.dueDate}
+                                    onChange={(e) => setNewTask({ ...newTask, dueDate: e.target.value })}
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
+                                />
+                                <div className="text-xs text-blue-600 mt-1">
+                                    <i className="fas fa-clock mr-1"></i>Set Start Date/Time
+                                </div>
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Repeats</label>
+                                <select
+                                    value={newTask.repeats}
+                                    onChange={(e) => setNewTask({ ...newTask, repeats: e.target.value })}
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
+                                >
+                                    <option value="Does not repeat">Does not repeat</option>
+                                    <option value="Daily">Daily</option>
+                                    <option value="Weekly">Weekly</option>
+                                    <option value="Monthly">Monthly</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Hours Spent</label>
+                            <input
+                                type="number"
+                                value={newTask.hoursSpent}
+                                onChange={(e) => setNewTask({ ...newTask, hoursSpent: e.target.value })}
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
+                            />
+                        </div>
+
+                        <div className="flex space-x-4">
+                            <button type="button" className="text-blue-600 hover:text-blue-800">
+                                <i className="fas fa-list mr-2"></i>Add Checklist Item
+                            </button>
+                            <button type="button" className="text-blue-600 hover:text-blue-800">
+                                <i className="fas fa-map-marker-alt mr-2"></i>Add Map Location
+                            </button>
+                        </div>
+
+                        <div>
+                            <button type="button" className="text-blue-600 hover:text-blue-800">
+                                <i className="fas fa-paperclip mr-2"></i>Add Attachment
+                            </button>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Associated To</label>
+                            <div className="relative">
+                                <input
+                                    type="text"
+                                    placeholder="Find Animal, Equipment"
+                                    value={newTask.associatedTo}
+                                    onChange={(e) => setNewTask({ ...newTask, associatedTo: e.target.value })}
+                                    className="w-full px-3 py-2 pl-8 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
+                                />
+                                <i className="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Task Color</label>
+                            <div className="flex flex-wrap gap-2">
+                                {colorOptions.map((color, index) => (
+                                    <button
+                                        key={index}
+                                        type="button"
+                                        onClick={() => setNewTask({ ...newTask, taskColor: color })}
+                                        className={`w-6 h-6 rounded-full border-2 ${newTask.taskColor === color ? 'border-gray-900' : 'border-gray-300'}`}
+                                        style={{ backgroundColor: color }}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="flex justify-end space-x-3 pt-4">
+                            <button
+                                type="button"
+                                onClick={() => setShowNewTaskModal(false)}
+                                className="px-4 py-2 text-gray-600 hover:text-gray-800"
+                            >
+                                Close
+                            </button>
+                            <button
+                                type="submit"
+                                className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+                            >
+                                Create
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        );
+    };
+
     return (
         <div className="p-6 bg-gray-50 min-h-screen">
             <div className="mb-6">
@@ -196,10 +714,16 @@ export const SchedulePage = () => {
                             </button>
                         </div>
                         <div className="flex space-x-2">
-                            <button className="px-4 py-2 bg-green-600 text-white rounded-md text-sm font-medium hover:bg-green-700">
+                            <button
+                                onClick={() => setShowNewEventModal(true)}
+                                className="px-4 py-2 bg-green-600 text-white rounded-md text-sm font-medium hover:bg-green-700"
+                            >
                                 New Event
                             </button>
-                            <button className="px-4 py-2 border border-gray-300 text-gray-700 rounded-md text-sm font-medium hover:bg-gray-50">
+                            <button
+                                onClick={() => setShowNewTaskModal(true)}
+                                className="px-4 py-2 border border-gray-300 text-gray-700 rounded-md text-sm font-medium hover:bg-gray-50"
+                            >
                                 New Task
                             </button>
                         </div>
@@ -296,6 +820,8 @@ export const SchedulePage = () => {
                     )}
                 </div>
             </div>
+            {showNewEventModal && <NewEventModal />}
+            {showNewTaskModal && <NewTaskModal />}
 
             {showEventModal && (
                 <EventModal
