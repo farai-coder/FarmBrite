@@ -26,6 +26,7 @@ import { Dashboard } from "./pages/Dashboard";
 import { Tasks } from "./pages/Tasks/Tasks";
 import { ContactsPage } from "./pages/Contact/Contact"
 import { SchedulePage } from './pages/Schedule/Schedule';
+import Animals from "./pages/Livestock/Animals";
 import { CashFlowPage } from './pages/Accounting/Cashflow/Cashflow';
 import { PnLStatementPage } from './pages/Accounting/PnLStatement/PnLStatement';
 import { TransactionsPage } from './pages/Accounting/Transactions/Transaction';
@@ -190,7 +191,7 @@ const ProtectedLayout: React.FC = () => {
       <Sidebar
         isSidebarOpen={isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}
-        role={userRole || 'none'}
+        role={userRole || "none"}
         activeMenu={activeMenu}
         setActiveMenu={setActiveMenu}
       />
@@ -232,277 +233,455 @@ const ProtectedLayout: React.FC = () => {
                 <p className="text-gray-600">Track and manage farm tasks</p>
               </div>
             } /> */}
-            <Route path="/livestock" element={
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                <h1 className="text-2xl font-semibold text-gray-800 mb-4">Livestock</h1>
-                <p className="text-gray-600">Manage your livestock inventory and health</p>
-              </div>
-            } />
+            <Route path="/livestock/animals" element={<Animals />} />
 
             {/* My Crops Routes */}
-            <Route path="/crops/my-crops/*" element={
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                {activeCropsSubmenu === 'details' && (
-                  <>
-                    <h1 className="text-2xl font-semibold text-gray-800 mb-4">Crops - Details</h1>
-                    <p className="text-gray-600">View detailed information about your crops</p>
-                  </>
-                )}
-                {activeCropsSubmenu === 'current-plantings' && (
-                  <>
-                    <h1 className="text-2xl font-semibold text-gray-800 mb-4">Current Plantings</h1>
-                    <p className="text-gray-600">Manage and track current crop plantings</p>
-                  </>
-                )}
-                {activeCropsSubmenu === 'future-plantings' && (
-                  <>
-                    <h1 className="text-2xl font-semibold text-gray-800 mb-4">Future Plantings</h1>
-                    <p className="text-gray-600">Plan and schedule future crop plantings</p>
-                  </>
-                )}
-                {activeCropsSubmenu === 'history' && (
-                  <>
-                    <h1 className="text-2xl font-semibold text-gray-800 mb-4">Planting History</h1>
-                    <p className="text-gray-600">View historical planting data and records</p>
-                  </>
-                )}
-                {activeCropsSubmenu === 'harvests' && (
-                  <>
-                    <h1 className="text-2xl font-semibold text-gray-800 mb-4">Harvests</h1>
-                    <p className="text-gray-600">Track and manage crop harvests</p>
-                  </>
-                )}
-                {activeCropsSubmenu === 'yield-comparison' && (
-                  <>
-                    <h1 className="text-2xl font-semibold text-gray-800 mb-4">Yield Comparison</h1>
-                    <p className="text-gray-600">Compare yields across different plantings and seasons</p>
-                  </>
-                )}
-                {activeCropsSubmenu === 'accounting' && (
-                  <>
-                    <h1 className="text-2xl font-semibold text-gray-800 mb-4">Crops Accounting</h1>
-                    <p className="text-gray-600">Track crop-related financial data and expenses</p>
-                  </>
-                )}
-                {activeCropsSubmenu === 'photos' && (
-                  <>
-                    <h1 className="text-2xl font-semibold text-gray-800 mb-4">Crop Photos</h1>
-                    <p className="text-gray-600">View and manage photos of your crops</p>
-                  </>
-                )}
-              </div>
-            } />
+            <Route
+              path="/crops/my-crops/*"
+              element={
+                <div className="bg-white rounded-lg shadow-sm p-6">
+                  {activeCropsSubmenu === "details" && (
+                    <>
+                      <h1 className="text-2xl font-semibold text-gray-800 mb-4">
+                        Crops - Details
+                      </h1>
+                      <p className="text-gray-600">
+                        View detailed information about your crops
+                      </p>
+                    </>
+                  )}
+                  {activeCropsSubmenu === "current-plantings" && (
+                    <>
+                      <h1 className="text-2xl font-semibold text-gray-800 mb-4">
+                        Current Plantings
+                      </h1>
+                      <p className="text-gray-600">
+                        Manage and track current crop plantings
+                      </p>
+                    </>
+                  )}
+                  {activeCropsSubmenu === "future-plantings" && (
+                    <>
+                      <h1 className="text-2xl font-semibold text-gray-800 mb-4">
+                        Future Plantings
+                      </h1>
+                      <p className="text-gray-600">
+                        Plan and schedule future crop plantings
+                      </p>
+                    </>
+                  )}
+                  {activeCropsSubmenu === "history" && (
+                    <>
+                      <h1 className="text-2xl font-semibold text-gray-800 mb-4">
+                        Planting History
+                      </h1>
+                      <p className="text-gray-600">
+                        View historical planting data and records
+                      </p>
+                    </>
+                  )}
+                  {activeCropsSubmenu === "harvests" && (
+                    <>
+                      <h1 className="text-2xl font-semibold text-gray-800 mb-4">
+                        Harvests
+                      </h1>
+                      <p className="text-gray-600">
+                        Track and manage crop harvests
+                      </p>
+                    </>
+                  )}
+                  {activeCropsSubmenu === "yield-comparison" && (
+                    <>
+                      <h1 className="text-2xl font-semibold text-gray-800 mb-4">
+                        Yield Comparison
+                      </h1>
+                      <p className="text-gray-600">
+                        Compare yields across different plantings and seasons
+                      </p>
+                    </>
+                  )}
+                  {activeCropsSubmenu === "accounting" && (
+                    <>
+                      <h1 className="text-2xl font-semibold text-gray-800 mb-4">
+                        Crops Accounting
+                      </h1>
+                      <p className="text-gray-600">
+                        Track crop-related financial data and expenses
+                      </p>
+                    </>
+                  )}
+                  {activeCropsSubmenu === "photos" && (
+                    <>
+                      <h1 className="text-2xl font-semibold text-gray-800 mb-4">
+                        Crop Photos
+                      </h1>
+                      <p className="text-gray-600">
+                        View and manage photos of your crops
+                      </p>
+                    </>
+                  )}
+                </div>
+              }
+            />
 
             {/* Grow Locations Routes */}
-            <Route path="/crops/grow-locations/*" element={
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                {activeGrowLocationsSubmenu === 'details' && (
-                  <>
-                    <div className="flex items-center justify-between mb-6">
-                      <div>
-                        <h1 className="text-2xl font-semibold text-gray-800">Northwest Field A (CSA Shares)</h1>
-                        <p className="text-sm text-gray-600">2.5 Acre <span className="bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded text-xs ml-2">Active</span></p>
+            <Route
+              path="/crops/grow-locations/*"
+              element={
+                <div className="bg-white rounded-lg shadow-sm p-6">
+                  {activeGrowLocationsSubmenu === "details" && (
+                    <>
+                      <div className="flex items-center justify-between mb-6">
+                        <div>
+                          <h1 className="text-2xl font-semibold text-gray-800">
+                            Northwest Field A (CSA Shares)
+                          </h1>
+                          <p className="text-sm text-gray-600">
+                            2.5 Acre{" "}
+                            <span className="bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded text-xs ml-2">
+                              Active
+                            </span>
+                          </p>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <button className="bg-green-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-green-700 transition-colors">
+                            New Treatment Record
+                          </button>
+                          <button className="text-gray-500 hover:text-gray-700">
+                            <i className="fas fa-print"></i>
+                          </button>
+                          <button className="text-gray-500 hover:text-gray-700">
+                            <i className="fas fa-th"></i>
+                          </button>
+                        </div>
                       </div>
-                      <div className="flex items-center space-x-2">
-                        <button className="bg-green-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-green-700 transition-colors">
-                          New Treatment Record
-                        </button>
-                        <button className="text-gray-500 hover:text-gray-700">
-                          <i className="fas fa-print"></i>
-                        </button>
-                        <button className="text-gray-500 hover:text-gray-700">
-                          <i className="fas fa-th"></i>
-                        </button>
-                      </div>
-                    </div>
 
-                    <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-                      <div className="overflow-x-auto">
-                        <table className="min-w-full divide-y divide-gray-200">
-                          <thead className="bg-gray-50">
-                            <tr>
-                              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
-                              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Details/Product</th>
-                              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Retreat Date</th>
-                              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Entered By</th>
-                              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                            </tr>
-                          </thead>
-                          <tbody className="bg-white divide-y divide-gray-200">
-                            <tr>
-                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Sep. 14, 2021</td>
-                              <td className="px-6 py-4 whitespace-nowrap">
-                                <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">
-                                  Mold ▼
-                                </span>
-                              </td>
-                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Break The Mold ▼ 175 oz</td>
-                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900"></td>
-                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Chris</td>
-                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button className="text-blue-600 hover:text-blue-900 mr-2">📋</button>
-                                <button className="text-red-600 hover:text-red-900">✗</button>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Sep. 07, 2021</td>
-                              <td className="px-6 py-4 whitespace-nowrap">
-                                <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-orange-100 text-orange-800">
-                                  Pesticide ▼
-                                </span>
-                              </td>
-                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Insect Incinerator ▼ 14g</td>
-                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900"></td>
-                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Chris</td>
-                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button className="text-blue-600 hover:text-blue-900 mr-2">📋</button>
-                                <button className="text-red-600 hover:text-red-900">✗</button>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Aug. 23, 2021</td>
-                              <td className="px-6 py-4 whitespace-nowrap">
-                                <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800">
-                                  Fungus ▼
-                                </span>
-                              </td>
-                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Fungus Fighter 3500 Max Xtreme ▼ 19g</td>
-                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Aug. 18, 2021</td>
-                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Chris</td>
-                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button className="text-blue-600 hover:text-blue-900 mr-2">📋</button>
-                                <button className="text-red-600 hover:text-red-900">✗</button>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
+                      <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+                        <div className="overflow-x-auto">
+                          <table className="min-w-full divide-y divide-gray-200">
+                            <thead className="bg-gray-50">
+                              <tr>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                  Date
+                                </th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                  Type
+                                </th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                  Details/Product
+                                </th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                  Retreat Date
+                                </th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                  Entered By
+                                </th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                  Actions
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody className="bg-white divide-y divide-gray-200">
+                              <tr>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                  Sep. 14, 2021
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                  <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">
+                                    Mold ▼
+                                  </span>
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                  Break The Mold ▼ 175 oz
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900"></td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                  Chris
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                  <button className="text-blue-600 hover:text-blue-900 mr-2">
+                                    📋
+                                  </button>
+                                  <button className="text-red-600 hover:text-red-900">
+                                    ✗
+                                  </button>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                  Sep. 07, 2021
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                  <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-orange-100 text-orange-800">
+                                    Pesticide ▼
+                                  </span>
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                  Insect Incinerator ▼ 14g
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900"></td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                  Chris
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                  <button className="text-blue-600 hover:text-blue-900 mr-2">
+                                    📋
+                                  </button>
+                                  <button className="text-red-600 hover:text-red-900">
+                                    ✗
+                                  </button>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                  Aug. 23, 2021
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                  <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800">
+                                    Fungus ▼
+                                  </span>
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                  Fungus Fighter 3500 Max Xtreme ▼ 19g
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                  Aug. 18, 2021
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                  Chris
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                  <button className="text-blue-600 hover:text-blue-900 mr-2">
+                                    📋
+                                  </button>
+                                  <button className="text-red-600 hover:text-red-900">
+                                    ✗
+                                  </button>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div className="px-6 py-3 bg-gray-50 border-t border-gray-200">
+                          <p className="text-sm text-gray-700">
+                            Displaying all 7 treatments
+                          </p>
+                        </div>
                       </div>
-                      <div className="px-6 py-3 bg-gray-50 border-t border-gray-200">
-                        <p className="text-sm text-gray-700">Displaying all 7 treatments</p>
-                      </div>
-                    </div>
-                  </>
-                )}
-                {activeGrowLocationsSubmenu === 'plantings' && (
-                  <>
-                    <h1 className="text-2xl font-semibold text-gray-800 mb-4">Grow Locations - Plantings</h1>
-                    <p className="text-gray-600">Manage plantings for this grow location</p>
-                  </>
-                )}
-                {activeGrowLocationsSubmenu === 'crop-plan' && (
-                  <>
-                    <h1 className="text-2xl font-semibold text-gray-800 mb-4">Grow Locations - Crop Plan</h1>
-                    <p className="text-gray-600">Plan and schedule crops for this location</p>
-                  </>
-                )}
-                {activeGrowLocationsSubmenu === 'planting-history' && (
-                  <>
-                    <h1 className="text-2xl font-semibold text-gray-800 mb-4">Grow Locations - Planting History</h1>
-                    <p className="text-gray-600">View historical planting data for this location</p>
-                  </>
-                )}
-                {activeGrowLocationsSubmenu === 'grazing' && (
-                  <>
-                    <h1 className="text-2xl font-semibold text-gray-800 mb-4">Grow Locations - Grazing</h1>
-                    <p className="text-gray-600">Manage grazing activities for this location</p>
-                  </>
-                )}
-                {activeGrowLocationsSubmenu === 'treatments' && (
-                  <>
-                    <h1 className="text-2xl font-semibold text-gray-800 mb-4">Grow Locations - Treatments</h1>
-                    <p className="text-gray-600">Track treatments and applications for this location</p>
-                  </>
-                )}
-                {activeGrowLocationsSubmenu === 'nutrients' && (
-                  <>
-                    <h1 className="text-2xl font-semibold text-gray-800 mb-4">Grow Locations - Nutrients</h1>
-                    <p className="text-gray-600">Monitor nutrient levels and fertilization</p>
-                  </>
-                )}
-                {activeGrowLocationsSubmenu === 'calendar' && (
-                  <>
-                    <h1 className="text-2xl font-semibold text-gray-800 mb-4">Grow Locations - Calendar</h1>
-                    <p className="text-gray-600">View calendar events for this location</p>
-                  </>
-                )}
-                {activeGrowLocationsSubmenu === 'tasks' && (
-                  <>
-                    <h1 className="text-2xl font-semibold text-gray-800 mb-4">Grow Locations - Tasks</h1>
-                    <p className="text-gray-600">Manage tasks specific to this location</p>
-                  </>
-                )}
-                {activeGrowLocationsSubmenu === 'notes' && (
-                  <>
-                    <h1 className="text-2xl font-semibold text-gray-800 mb-4">Grow Locations - Notes</h1>
-                    <p className="text-gray-600">View and add notes for this location</p>
-                  </>
-                )}
-                {activeGrowLocationsSubmenu === 'map' && (
-                  <>
-                    <h1 className="text-2xl font-semibold text-gray-800 mb-4">Grow Locations - Map</h1>
-                    <p className="text-gray-600">View location on map</p>
-                  </>
-                )}
-                {activeGrowLocationsSubmenu === 'accounting' && (
-                  <>
-                    <h1 className="text-2xl font-semibold text-gray-800 mb-4">Grow Locations - Accounting</h1>
-                    <p className="text-gray-600">Track financial data for this location</p>
-                  </>
-                )}
-                {activeGrowLocationsSubmenu === 'images' && (
-                  <>
-                    <h1 className="text-2xl font-semibold text-gray-800 mb-4">Grow Locations - Images</h1>
-                    <p className="text-gray-600">View and manage images for this location</p>
-                  </>
-                )}
-              </div>
-            } />
+                    </>
+                  )}
+                  {activeGrowLocationsSubmenu === "plantings" && (
+                    <>
+                      <h1 className="text-2xl font-semibold text-gray-800 mb-4">
+                        Grow Locations - Plantings
+                      </h1>
+                      <p className="text-gray-600">
+                        Manage plantings for this grow location
+                      </p>
+                    </>
+                  )}
+                  {activeGrowLocationsSubmenu === "crop-plan" && (
+                    <>
+                      <h1 className="text-2xl font-semibold text-gray-800 mb-4">
+                        Grow Locations - Crop Plan
+                      </h1>
+                      <p className="text-gray-600">
+                        Plan and schedule crops for this location
+                      </p>
+                    </>
+                  )}
+                  {activeGrowLocationsSubmenu === "planting-history" && (
+                    <>
+                      <h1 className="text-2xl font-semibold text-gray-800 mb-4">
+                        Grow Locations - Planting History
+                      </h1>
+                      <p className="text-gray-600">
+                        View historical planting data for this location
+                      </p>
+                    </>
+                  )}
+                  {activeGrowLocationsSubmenu === "grazing" && (
+                    <>
+                      <h1 className="text-2xl font-semibold text-gray-800 mb-4">
+                        Grow Locations - Grazing
+                      </h1>
+                      <p className="text-gray-600">
+                        Manage grazing activities for this location
+                      </p>
+                    </>
+                  )}
+                  {activeGrowLocationsSubmenu === "treatments" && (
+                    <>
+                      <h1 className="text-2xl font-semibold text-gray-800 mb-4">
+                        Grow Locations - Treatments
+                      </h1>
+                      <p className="text-gray-600">
+                        Track treatments and applications for this location
+                      </p>
+                    </>
+                  )}
+                  {activeGrowLocationsSubmenu === "nutrients" && (
+                    <>
+                      <h1 className="text-2xl font-semibold text-gray-800 mb-4">
+                        Grow Locations - Nutrients
+                      </h1>
+                      <p className="text-gray-600">
+                        Monitor nutrient levels and fertilization
+                      </p>
+                    </>
+                  )}
+                  {activeGrowLocationsSubmenu === "calendar" && (
+                    <>
+                      <h1 className="text-2xl font-semibold text-gray-800 mb-4">
+                        Grow Locations - Calendar
+                      </h1>
+                      <p className="text-gray-600">
+                        View calendar events for this location
+                      </p>
+                    </>
+                  )}
+                  {activeGrowLocationsSubmenu === "tasks" && (
+                    <>
+                      <h1 className="text-2xl font-semibold text-gray-800 mb-4">
+                        Grow Locations - Tasks
+                      </h1>
+                      <p className="text-gray-600">
+                        Manage tasks specific to this location
+                      </p>
+                    </>
+                  )}
+                  {activeGrowLocationsSubmenu === "notes" && (
+                    <>
+                      <h1 className="text-2xl font-semibold text-gray-800 mb-4">
+                        Grow Locations - Notes
+                      </h1>
+                      <p className="text-gray-600">
+                        View and add notes for this location
+                      </p>
+                    </>
+                  )}
+                  {activeGrowLocationsSubmenu === "map" && (
+                    <>
+                      <h1 className="text-2xl font-semibold text-gray-800 mb-4">
+                        Grow Locations - Map
+                      </h1>
+                      <p className="text-gray-600">View location on map</p>
+                    </>
+                  )}
+                  {activeGrowLocationsSubmenu === "accounting" && (
+                    <>
+                      <h1 className="text-2xl font-semibold text-gray-800 mb-4">
+                        Grow Locations - Accounting
+                      </h1>
+                      <p className="text-gray-600">
+                        Track financial data for this location
+                      </p>
+                    </>
+                  )}
+                  {activeGrowLocationsSubmenu === "images" && (
+                    <>
+                      <h1 className="text-2xl font-semibold text-gray-800 mb-4">
+                        Grow Locations - Images
+                      </h1>
+                      <p className="text-gray-600">
+                        View and manage images for this location
+                      </p>
+                    </>
+                  )}
+                </div>
+              }
+            />
 
-
-            {/* Other routes remain the same */}
-            <Route path="/crops/*" element={
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                <h1 className="text-2xl font-semibold text-gray-800 mb-4">Crops</h1>
-                <p className="text-gray-600">Manage your crop operations</p>
-              </div>
-            } />
-            <Route path="/resources" element={
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                <h1 className="text-2xl font-semibold text-gray-800 mb-4">Resources</h1>
-                <p className="text-gray-600">Manage farm equipment and resources</p>
-              </div>
-            } />
-            <Route path="/accounting" element={
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                <h1 className="text-2xl font-semibold text-gray-800 mb-4">Accounting</h1>
-                <p className="text-gray-600">Track farm finances and expenses</p>
-              </div>
-            } />
-            <Route path="/transactions" element={
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                <h1 className="text-2xl font-semibold text-gray-800 mb-4">Transactions</h1>
-                <p className="text-gray-600">Record and track financial transactions</p>
-              </div>
-            } />
-            <Route path="/pnl" element={
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                <h1 className="text-2xl font-semibold text-gray-800 mb-4">P&L Statement</h1>
-                <p className="text-gray-600">View profit and loss statements</p>
-              </div>
-            } />
-            <Route path="/cashflow" element={
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                <h1 className="text-2xl font-semibold text-gray-800 mb-4">Cash Flow</h1>
-                <p className="text-gray-600">Monitor cash flow and financial health</p>
-              </div>
-            } />
-            <Route path="/market" element={
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                <h1 className="text-2xl font-semibold text-gray-800 mb-4">Market</h1>
-                <p className="text-gray-600">Manage sales and market activities</p>
-              </div>
-            } />
+           {/* Other routes remain the same */}
+            <Route
+              path="/crops/*"
+              element={
+                <div className="bg-white rounded-lg shadow-sm p-6">
+                  <h1 className="text-2xl font-semibold text-gray-800 mb-4">
+                    Crops
+                  </h1>
+                  <p className="text-gray-600">Manage your crop operations</p>
+                </div>
+              }
+            />
+            <Route
+              path="/resources"
+              element={
+                <div className="bg-white rounded-lg shadow-sm p-6">
+                  <h1 className="text-2xl font-semibold text-gray-800 mb-4">
+                    Resources
+                  </h1>
+                  <p className="text-gray-600">
+                    Manage farm equipment and resources
+                  </p>
+                </div>
+              }
+            />
+            <Route
+              path="/accounting"
+              element={
+                <div className="bg-white rounded-lg shadow-sm p-6">
+                  <h1 className="text-2xl font-semibold text-gray-800 mb-4">
+                    Accounting
+                  </h1>
+                  <p className="text-gray-600">
+                    Track farm finances and expenses
+                  </p>
+                </div>
+              }
+            />
+            <Route
+              path="/transactions"
+              element={
+                <div className="bg-white rounded-lg shadow-sm p-6">
+                  <h1 className="text-2xl font-semibold text-gray-800 mb-4">
+                    Transactions
+                  </h1>
+                  <p className="text-gray-600">
+                    Record and track financial transactions
+                  </p>
+                </div>
+              }
+            />
+            <Route
+              path="/pnl"
+              element={
+                <div className="bg-white rounded-lg shadow-sm p-6">
+                  <h1 className="text-2xl font-semibold text-gray-800 mb-4">
+                    P&L Statement
+                  </h1>
+                  <p className="text-gray-600">
+                    View profit and loss statements
+                  </p>
+                </div>
+              }
+            />
+            <Route
+              path="/cashflow"
+              element={
+                <div className="bg-white rounded-lg shadow-sm p-6">
+                  <h1 className="text-2xl font-semibold text-gray-800 mb-4">
+                    Cash Flow
+                  </h1>
+                  <p className="text-gray-600">
+                    Monitor cash flow and financial health
+                  </p>
+                </div>
+              }
+            />
+            <Route
+              path="/market"
+              element={
+                <div className="bg-white rounded-lg shadow-sm p-6">
+                  <h1 className="text-2xl font-semibold text-gray-800 mb-4">
+                    Market
+                  </h1>
+                  <p className="text-gray-600">
+                    Manage sales and market activities
+                  </p>
+                </div>
+              }
+            />
             {/* <Route path="/contacts" element={
               <div className="bg-white rounded-lg shadow-sm p-6">
                 <h1 className="text-2xl font-semibold text-gray-800 mb-4">Contacts</h1>
@@ -522,18 +701,51 @@ const ProtectedLayout: React.FC = () => {
               </div>
             } /> */}
             <Route path="/crops/crop-plan" element={<CropPlan />} />
-            <Route path="/crops/yield-comparison" element={<YieldComparison />} />
+            <Route
+              path="/crops/yield-comparison"
+              element={<YieldComparison />}
+            />
             <Route path="/crops/location-map" element={<LocationMap />} />
-            <Route path="/crops/grow-locations/tasks" element={<GrowLocationTasks />} />
-            <Route path="/crops/grow-locations/calendar" element={<GrowLocationCalendar />} />
-            <Route path="/crops/grow-locations/nutrients" element={<GrowLocationNutrients />} />
-            <Route path="/crops/grow-locations/treatments" element={<GrowLocationTreatments />} />
-            <Route path="/crops/grow-locations/plantings" element={<GrowLocationPlantings />} />
-            <Route path="/crops/my-crops/harvests" element={< MyCropsHarvests />} />
-            <Route path="/crops/grow-locations/notes" element={<GrowLocationNotes />} />
-            <Route path="/crops/grow-locations/accounting" element={<GrowLocationAccounting />} />
-            <Route path="/crops/my-crops/photos" element={<GrowLocationImages />} />
-            <Route path="/crops/my-crops/current-plantings" element={<MyCurrentPlantings />} />
+            <Route
+              path="/crops/grow-locations/tasks"
+              element={<GrowLocationTasks />}
+            />
+            <Route
+              path="/crops/grow-locations/calendar"
+              element={<GrowLocationCalendar />}
+            />
+            <Route
+              path="/crops/grow-locations/nutrients"
+              element={<GrowLocationNutrients />}
+            />
+            <Route
+              path="/crops/grow-locations/treatments"
+              element={<GrowLocationTreatments />}
+            />
+            <Route
+              path="/crops/grow-locations/plantings"
+              element={<GrowLocationPlantings />}
+            />
+            <Route
+              path="/crops/my-crops/harvests"
+              element={<MyCropsHarvests />}
+            />
+            <Route
+              path="/crops/grow-locations/notes"
+              element={<GrowLocationNotes />}
+            />
+            <Route
+              path="/crops/grow-locations/accounting"
+              element={<GrowLocationAccounting />}
+            />
+            <Route
+              path="/crops/my-crops/photos"
+              element={<GrowLocationImages />}
+            />
+            <Route
+              path="/crops/my-crops/current-plantings"
+              element={<MyCurrentPlantings />}
+            />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/" element={<Dashboard />} />
             <Route path="/tasks" element={<Tasks />} />
@@ -541,18 +753,33 @@ const ProtectedLayout: React.FC = () => {
             <Route path="/schedule" element={<SchedulePage />} />
             <Route path="/accounting/cashflow" element={<CashFlowPage />} />
             <Route path="/accounting/pnl" element={<PnLStatementPage />} />
-            <Route path="/accounting/transactions" element={<TransactionsPage />} />
+            <Route
+              path="/accounting/transactions"
+              element={<TransactionsPage />}
+            />
             <Route path="/market/dashboard" element={<MarketDashboardPage />} />
             <Route path="/market/products" element={<MarketProductsPage />} />
             <Route path="/market/orders" element={<MarketOrdersPage />} />
             <Route path="/resources/equipment" element={<EquipmentLayout />} />
-            <Route path="/resources/warehouse" element={<WarehouseManagement />} />
-            <Route path="/resources/inventory" element={<ResourcesInventory />} />
+            <Route
+              path="/resources/warehouse"
+              element={<WarehouseManagement />}
+            />
+            <Route
+              path="/resources/inventory"
+              element={<ResourcesInventory />}
+            />
             <Route path="/reports" element={<StandardReports />} />
             <Route path="/farm-map" element={<FarmMap />} />
-            <Route path="/accounting/balance-sheet" element={<BalanceSheet />} />
+            <Route
+              path="/accounting/balance-sheet"
+              element={<BalanceSheet />}
+            />
             <Route path="/accounting/budgeting" element={<Budgeting />} />
-            <Route path="/climate/weather-history" element={<WeatherHistory />} />
+            <Route
+              path="/climate/weather-history"
+              element={<WeatherHistory />}
+            />
             <Route path="/climate/gauges" element={<ClimateGauges />} />
             <Route path="/climate/weather-logs" element={<WeatherLogs />} />
             <Route path="/climate/weather-map" element={<WeatherMap />} />

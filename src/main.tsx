@@ -4,6 +4,8 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import 'font-awesome/css/font-awesome.min.css';
+import "react-datepicker/dist/react-datepicker.css";
+
 
 // Create a root element
 const container = document.getElementById("root");
